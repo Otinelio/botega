@@ -1,0 +1,228 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════
+   LA BODEGA LOMÉ — Design System (Tailwind v4 CSS-first config)
+   ═══════════════════════════════════════════════════════════════ */
+
+@theme {
+  /* ── Colors ── */
+  --color-terracotta: #E07A5F;
+  --color-terracotta-deep: #C05A3F;
+  --color-gold: #D4AF37;
+  --color-gold-light: #F0D060;
+  --color-earth-dark: #2C1810;
+  --color-earth-mid: #5C3A28;
+  --color-beige: #EDE4D5;
+  --color-beige-warm: #F7F0E8;
+  --color-olive: #2E7D59;
+  --color-night: #1E3A5F;
+  --color-text-dark: #1F1F1F;
+  --color-text-light: #F5F0E8;
+  --color-footer: #1A0F0A;
+  --color-admin-bg: #F4F1EC;
+  --color-card-dark: #3D2015;
+
+  /* ── Fonts ── */
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Inter', sans-serif;
+  --font-cormorant: 'Cormorant Garamond', serif;
+  --font-script: 'Great Vibes', cursive;
+  --font-poppins: 'Poppins', sans-serif;
+
+  /* ── Custom animations ── */
+  --animate-shimmer: shimmer 3s ease-in-out infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-bounce-slow: bounce-slow 2s ease-in-out infinite;
+  --animate-fade-in-up: fade-in-up 0.6s ease-out forwards;
+  --animate-slide-up: slide-up 0.4s ease-out forwards;
+}
+
+/* ── Keyframes ── */
+@keyframes shimmer {
+  0%, 100% { background-position: -200% center; }
+  50% { background-position: 200% center; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(100%); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════
+   Global Styles
+   ═══════════════════════════════════════════ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text-dark);
+  background-color: var(--color-beige);
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  line-height: 1.2;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-earth-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-terracotta);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-terracotta-deep);
+}
+
+/* ── Selection ── */
+::selection {
+  background-color: var(--color-terracotta);
+  color: white;
+}
+
+/* ── Shimmer Button ── */
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-terracotta);
+  color: white;
+  font-family: var(--font-poppins);
+  font-weight: 600;
+  font-size: 15px;
+  text-transform: uppercase;
+  padding: 14px 32px;
+  border-radius: 2px;
+  box-shadow: 0 4px 20px rgba(224,122,95,0.4);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+  letter-spacing: 0.05em;
+}
+
+.btn-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -200%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(212,175,55,0.3) 50%,
+    transparent 100%
+  );
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+.btn-shimmer:hover {
+  background: var(--color-terracotta-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(224,122,95,0.5);
+}
+
+/* ── Ghost Button ── */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  border: 1.5px solid var(--color-gold);
+  color: var(--color-gold);
+  font-family: var(--font-poppins);
+  font-weight: 600;
+  font-size: 15px;
+  text-transform: uppercase;
+  border-radius: 2px;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.05em;
+}
+
+.btn-ghost:hover {
+  background: var(--color-gold);
+  color: var(--color-earth-dark);
+}
+
+/* ── Outline Button (on dark) ── */
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  border: 1.5px solid var(--color-beige);
+  color: var(--color-beige);
+  font-family: var(--font-poppins);
+  font-weight: 600;
+  font-size: 15px;
+  text-transform: uppercase;
+  border-radius: 2px;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.05em;
+}
+
+.btn-outline:hover {
+  background: var(--color-beige);
+  color: var(--color-earth-dark);
+}
+
+/* ── Section Label ── */
+.section-label {
+  font-family: var(--font-poppins);
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--color-terracotta);
+}
+
+/* ── Badge Styles ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-family: var(--font-poppins);
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge-nouveau { background: var(--color-terracotta); color: white; }
+.badge-populaire { background: var(--color-gold); color: var(--color-earth-dark); }
+.badge-vegetarien { background: var(--color-olive); color: white; }
+.badge-signature { border: 1.5px solid var(--color-gold); color: var(--color-gold); background: transparent; }
