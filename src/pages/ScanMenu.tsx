@@ -4,6 +4,7 @@ import { getMenu, getCategories, getInfo, getTableNumber, setTableNumber } from 
 import { useCart } from '../context/CartContext';
 import { ShoppingCart, Plus, Minus, Trash2, X, Send, MessageCircle } from 'lucide-react';
 import { CartProvider } from '../context/CartContext';
+import logoBodega from '../assets/logo_bodega.png';
 
 /* ── Table Modal ── */
 function TableModal({ onConfirm }: { onConfirm: (n: string) => void }) {
@@ -28,7 +29,7 @@ function TableModal({ onConfirm }: { onConfirm: (n: string) => void }) {
         animate={{ opacity: 1, scale: 1 }}
         className="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center"
       >
-        <span className="text-5xl block mb-4">🍕</span>
+        <img src={logoBodega} alt="La Bodega" className="h-16 w-auto mx-auto mb-4" />
         <h2 className="font-serif text-2xl font-bold text-earth-dark mb-1">Bienvenue 👋</h2>
         <p className="text-text-dark/50 text-sm mb-6">Entrez votre numéro de table</p>
         <form onSubmit={handleSubmit}>
@@ -186,7 +187,7 @@ function ScanMenuInner() {
       <header className="sticky top-0 z-40 bg-earth-dark/95 backdrop-blur-lg px-6 py-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-2xl">🍕</span>
+            <img src={logoBodega} alt="La Bodega" className="h-10 w-auto" />
             <div>
               <span className="font-serif text-lg font-bold text-gold">La Bodega</span>
               <p className="font-poppins text-xs text-text-light/50">Notre Menu</p>

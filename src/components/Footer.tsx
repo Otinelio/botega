@@ -1,5 +1,6 @@
 import { getInfo } from '../data/store';
 import { MapPin, Phone, Clock, MessageCircle, Camera } from 'lucide-react';
+import logoBodega from '../assets/logo_bodega.png';
 
 export default function Footer() {
   const info = getInfo();
@@ -11,8 +12,7 @@ export default function Footer() {
           {/* Col 1 — Identity */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-3xl">🍕</span>
-              <span className="font-serif text-2xl font-bold text-gold">{info.name}</span>
+              <img src={logoBodega} alt={info.name} className="h-16 w-auto" />
             </div>
             <p className="font-poppins text-xs text-text-light/40 uppercase tracking-wider mb-3">
               Restaurant · Pizzeria · Lounge

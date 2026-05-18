@@ -5,6 +5,7 @@ import {
   LayoutDashboard, Pizza, FolderOpen, Image, MessageSquare,
   Settings, LogOut, Menu, X, Lock
 } from 'lucide-react';
+import logoBodega from '../assets/logo_bodega.png';
 
 const SIDEBAR_ITEMS = [
   { label: 'Tableau de bord', icon: <LayoutDashboard size={20} />, path: '/admin' },
@@ -90,8 +91,7 @@ export default function AdminLayout() {
         {/* Header */}
         <div className="p-6 border-b border-text-light/10">
           <div className="flex items-center gap-3">
-            <span className="text-2xl">🍕</span>
-            <span className="font-serif text-lg font-bold text-gold">La Bodega</span>
+            <img src={logoBodega} alt="La Bodega" className="h-10 w-auto" />
           </div>
           <p className="font-poppins text-xs text-text-light/40 mt-1">Administration</p>
         </div>

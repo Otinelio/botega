@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, Phone, CalendarCheck } from 'lucide-react';
+import logoBodega from '../assets/logo_bodega.png';
 
 const NAV_LINKS = [
   { label: 'Menu', href: '/menu' },
@@ -30,10 +31,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-3 group">
-          <span className="text-2xl">🍕</span>
-          <span className="font-serif text-2xl font-bold text-gold tracking-wide group-hover:text-gold-light transition-colors">
-            La Bodega
-          </span>
+          <img src={logoBodega} alt="La Bodega" className="h-24 w-auto -my-6 relative z-10" />
         </Link>
 
         {/* Desktop Nav */}

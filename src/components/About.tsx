@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useScrollReveal, fadeInUp, staggerContainer } from '../hooks/useScrollReveal';
 import { UtensilsCrossed, Wine, Gamepad2 } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
+import accueil1 from '../assets/acceuil1.jpg';
 
 function AnimatedCounter({ target, suffix = '' }: { target: string; suffix?: string }) {
   const [display, setDisplay] = useState('0');
@@ -74,7 +75,7 @@ export default function About() {
           <motion.div variants={fadeInUp} className="relative">
             <div className="relative rounded-3xl overflow-hidden shadow-2xl">
               <img
-                src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=700&q=80"
+                src={accueil1}
                 alt="Intérieur La Bodega"
                 className="w-full h-[500px] object-cover"
               />

@@ -1,3 +1,5 @@
+import accueil2 from '../assets/acceuil2.jpg';
+
 /* ═══════════════════════════════════════════════════════
    LA BODEGA LOMÉ — Default Data & Types
    ═══════════════════════════════════════════════════════ */
@@ -162,7 +164,7 @@ export const defaultTestimonials: Testimonial[] = [
 
 /* ── Default Gallery ── */
 export const defaultGallery: GalleryItem[] = [
-  { id: uid(), url: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80', caption: 'Notre terrasse au coucher du soleil' },
+  { id: uid(), url: accueil2, caption: 'Notre terrasse au coucher du soleil' },
   { id: uid(), url: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80', caption: 'Fine dining à la Bodega' },
   { id: uid(), url: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80', caption: 'Ambiance lounge bar' },
   { id: uid(), url: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80', caption: 'Nos grillades signature' },
@@ -209,7 +211,21 @@ export const setMenu = (m: MenuItem[]) => localStorage.setItem(KEYS.menu, JSON.s
 export const getCategories = (): Category[] => loadOrSeed(KEYS.categories, defaultCategories);
 export const setCategories = (c: Category[]) => localStorage.setItem(KEYS.categories, JSON.stringify(c));
 
-export const getGallery = (): GalleryItem[] => loadOrSeed(KEYS.gallery, defaultGallery);
+export const getGallery = (): GalleryItem[] => {
+  const items = loadOrSeed(KEYS.gallery, defaultGallery);
+  let updated = false;
+  const newItems = items.map(item => {
+    if (item.caption === 'Notre terrasse au coucher du soleil' && item.url.includes('unsplash.com')) {
+      updated = true;
+      return { ...item, url: accueil2 };
+    }
+    return item;
+  });
+  if (updated) {
+    setGallery(newItems);
+  }
+  return newItems;
+};
 export const setGallery = (g: GalleryItem[]) => localStorage.setItem(KEYS.gallery, JSON.stringify(g));
 
 export const getTestimonials = (): Testimonial[] => loadOrSeed(KEYS.testimonials, defaultTestimonials);

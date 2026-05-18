@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { ChevronDown, Phone, CalendarCheck } from 'lucide-react';
+import accueil from '../assets/acceuil.jpg';
 
 export default function Hero() {
   return (
@@ -11,7 +12,7 @@ export default function Hero() {
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920&q=80')`,
+          backgroundImage: `url(${accueil})`,
           backgroundAttachment: 'fixed',
         }}
       />

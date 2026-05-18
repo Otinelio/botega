@@ -4,6 +4,7 @@ import { getMenu, getCategories, getInfo } from '../data/store';
 import { useCart } from '../context/CartContext';
 import { ShoppingCart, Plus, Minus, Trash2, X, Send, MessageCircle } from 'lucide-react';
 import { CartProvider } from '../context/CartContext';
+import logoBodega from '../assets/logo_bodega.png';
 
 /* ── Cart Drawer ── */
 function CartDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
@@ -130,7 +131,7 @@ function MenuPublicInner() {
       <header className="sticky top-0 z-40 bg-earth-dark/95 backdrop-blur-lg px-6 py-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-2xl">🍕</span>
+            <img src={logoBodega} alt="La Bodega" className="h-10 w-auto" />
             <div>
               <span className="font-serif text-lg font-bold text-gold">La Bodega</span>
               <p className="font-poppins text-xs text-text-light/50">Notre Menu</p>
