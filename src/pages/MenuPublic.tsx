@@ -5,6 +5,7 @@ import { useCart } from '../context/CartContext';
 import { ShoppingCart, Plus, Minus, Trash2, X, Send, MessageCircle } from 'lucide-react';
 import { CartProvider } from '../context/CartContext';
 import logoBodega from '../assets/logo_bodega.png';
+import CategoryIcon from '../components/CategoryIcon';
 
 /* ── Cart Drawer ── */
 function CartDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
@@ -56,9 +57,6 @@ function CartDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
                   <div className="space-y-3 mb-6">
                     {items.map(ci => (
                       <div key={ci.item.id} className="flex items-center gap-4 bg-white rounded-xl p-4 shadow-sm">
-                        {ci.item.image && (
-                          <img src={ci.item.image} alt={ci.item.name} className="w-14 h-14 rounded-lg object-cover" />
-                        )}
                         <div className="flex-1">
                           <p className="font-poppins font-semibold text-sm text-earth-dark">{ci.item.name}</p>
                           <p className="font-poppins text-xs text-terracotta">{ci.item.price.toLocaleString('fr-FR')} XOF</p>
@@ -123,7 +121,15 @@ function MenuPublicInner() {
   const categories = getCategories();
   const tabs = ['Tout', ...categories.sort((a, b) => a.order - b.order).map(c => c.name)];
   const filtered = active === 'Tout' ? menu : menu.filter(m => m.category === active);
-  const catIcon = (name: string) => categories.find(c => c.name === name)?.icon || '';
+
+  /* Group items by category for "Tout" view */
+  const grouped = active === 'Tout'
+    ? categories.sort((a, b) => a.order - b.order).reduce((acc, cat) => {
+        const items = filtered.filter(i => i.category === cat.name);
+        if (items.length > 0) acc.push({ cat, items });
+        return acc;
+      }, [] as { cat: typeof categories[0]; items: typeof filtered }[])
+    : [{ cat: categories.find(c => c.name === active) || { id: '', name: active, icon: '', order: 0 }, items: filtered }];
 
   return (
     <div className="min-h-screen bg-beige">
@@ -156,42 +162,107 @@ function MenuPublicInner() {
                   : 'bg-white text-text-dark/60 hover:bg-gray-100'
               }`}
             >
-              {tab !== 'Tout' && <span className="mr-1">{catIcon(tab)}</span>}
+              {tab !== 'Tout' && <CategoryIcon name={tab} className="inline-block mr-1 align-middle" />}
               {tab}
             </button>
           ))}
         </div>
       </div>
 
-      {/* Grid */}
+      {/* Menu content */}
       <main className="max-w-5xl mx-auto px-6 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map(item => (
+        {grouped.map(({ cat, items }) => (
+          <section key={cat.id} className="mb-10">
+            {/* Section title */}
             <motion.div
-              key={item.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-white rounded-2xl overflow-hidden shadow-md border-t-[3px] border-terracotta hover:shadow-xl transition-all"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="flex items-center gap-3 mb-5"
             >
-              <div className="h-44 overflow-hidden">
-                <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-              </div>
-              <div className="p-4">
-                <h3 className="font-serif text-lg font-bold text-earth-dark mb-1">{item.name}</h3>
-                <p className="text-text-dark/50 text-xs line-clamp-2 mb-3">{item.description}</p>
-                <div className="flex items-center justify-between">
-                  <span className="font-poppins text-lg font-bold text-terracotta">{item.price.toLocaleString('fr-FR')} XOF</span>
-                  <button
-                    onClick={() => addItem(item)}
-                    className="flex items-center gap-2 bg-terracotta text-white px-4 py-2 rounded-lg font-poppins text-xs font-semibold hover:bg-terracotta-deep transition-colors cursor-pointer"
-                  >
-                    <ShoppingCart size={14} /> Ajouter
-                  </button>
-                </div>
-              </div>
+              <CategoryIcon name={cat.name} size={24} className="text-terracotta" />
+              <h2 className="font-serif text-xl font-bold text-earth-dark">{cat.name}</h2>
+              <div className="flex-1 h-px bg-terracotta/20 ml-2" />
             </motion.div>
-          ))}
-        </div>
+
+            {/* Items Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {items.map((item, idx) => (
+                <motion.div
+                  key={item.id}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.02 }}
+                  className="group flex gap-4 bg-white rounded-2xl p-4 shadow-sm hover:shadow-md border border-gray-100 hover:border-terracotta/30 transition-all duration-300"
+                >
+                  {/* Thumbnail / Icon placeholder */}
+                  <div className="flex-shrink-0">
+                    {item.image ? (
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-20 h-20 rounded-xl object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-20 h-20 rounded-xl bg-terracotta/5 text-terracotta flex items-center justify-center transition-colors group-hover:bg-terracotta/10">
+                        <CategoryIcon name={item.category} size={28} />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Info & Actions */}
+                  <div className="flex-1 min-w-0 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-start justify-between gap-2">
+                        <h3 className="font-serif text-base font-bold text-earth-dark group-hover:text-terracotta transition-colors leading-tight">
+                          {item.name}
+                        </h3>
+                        <span className="font-poppins text-sm font-bold text-terracotta whitespace-nowrap shrink-0">
+                          {item.price.toLocaleString('fr-FR')} F
+                        </span>
+                      </div>
+                      
+                      {item.badges.length > 0 && (
+                        <div className="flex gap-1.5 flex-wrap mt-1">
+                          {item.badges.map(b => (
+                            <span
+                              key={b}
+                              className={`inline-block px-2 py-0.5 rounded-full text-[9px] font-poppins font-semibold uppercase tracking-wide ${
+                                b === 'signature' ? 'bg-gold/10 text-gold' :
+                                b === 'populaire' ? 'bg-terracotta/10 text-terracotta' :
+                                b === 'nouveau' ? 'bg-olive/10 text-olive' :
+                                'bg-gray-100 text-gray-500'
+                              }`}
+                            >
+                              {b}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+
+                      {item.description && (
+                        <p className="text-text-dark/50 text-xs mt-1.5 leading-relaxed line-clamp-2">
+                          {item.description}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100/50">
+                      <span className="text-[10px] font-poppins text-text-dark/40 uppercase tracking-wider">
+                        {item.category}
+                      </span>
+                      <button
+                        onClick={() => addItem(item)}
+                        className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-terracotta/10 text-terracotta hover:bg-terracotta hover:text-white font-poppins text-xs font-semibold transition-all cursor-pointer active:scale-95"
+                      >
+                        <Plus size={12} /> Ajouter
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+        ))}
       </main>
 
       {/* Floating Cart Button */}

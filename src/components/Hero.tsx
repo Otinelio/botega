@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronDown, Phone, CalendarCheck } from 'lucide-react';
+import { ChevronDown, Phone, CalendarCheck, Pizza, GlassWater, Flag, Tv } from 'lucide-react';
 import accueil from '../assets/acceuil.jpg';
 
 export default function Hero() {
@@ -137,28 +137,28 @@ export default function Hero() {
       <div className="absolute bottom-0 left-0 w-full hidden md:block border-t border-white/5 bg-black/40 backdrop-blur-md py-5 z-20 select-none">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-4 gap-8">
           <div className="flex items-center gap-3 group cursor-pointer">
-            <span className="text-xl group-hover:scale-125 transition-transform duration-300">🍕</span>
+            <Pizza className="text-gold group-hover:scale-125 transition-transform duration-300" size={24} />
             <div>
               <h5 className="font-serif font-bold text-white text-xs group-hover:text-gold transition-colors">Cuisine & Pizzas</h5>
               <p className="text-[10px] text-text-light/50 font-poppins mt-0.5">Au feu de bois & grillades</p>
             </div>
           </div>
           <div className="flex items-center gap-3 group cursor-pointer">
-            <span className="text-xl group-hover:scale-125 transition-transform duration-300">🍹</span>
+            <GlassWater className="text-gold group-hover:scale-125 transition-transform duration-300" size={24} />
             <div>
               <h5 className="font-serif font-bold text-white text-xs group-hover:text-gold transition-colors">Lounge Bar</h5>
               <p className="text-[10px] text-text-light/50 font-poppins mt-0.5">Mixologie & ambiance chic</p>
             </div>
           </div>
           <div className="flex items-center gap-3 group cursor-pointer">
-            <span className="text-xl group-hover:scale-125 transition-transform duration-300">⛳</span>
+            <Flag className="text-gold group-hover:scale-125 transition-transform duration-300" size={24} />
             <div>
               <h5 className="font-serif font-bold text-white text-xs group-hover:text-gold transition-colors">Mini-Golf Nocturne</h5>
               <p className="text-[10px] text-text-light/50 font-poppins mt-0.5">Parcours sous les lanternes</p>
             </div>
           </div>
           <div className="flex items-center gap-3 group cursor-pointer">
-            <span className="text-xl group-hover:scale-125 transition-transform duration-300">⚽</span>
+            <Tv className="text-gold group-hover:scale-125 transition-transform duration-300" size={24} />
             <div>
               <h5 className="font-serif font-bold text-white text-xs group-hover:text-gold transition-colors">Matchs & Projections</h5>
               <p className="text-[10px] text-text-light/50 font-poppins mt-0.5">Écran géant sous les étoiles</p>

@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useScrollReveal, fadeInUp, staggerContainer } from '../hooks/useScrollReveal';
-import { getMenu, getCategories } from '../data/store';
+import { getMenu } from '../data/store';
 import { ShoppingCart } from 'lucide-react';
+import CategoryIcon from './CategoryIcon';
 
 function BadgeTag({ badge }: { badge: string }) {
   const cls: Record<string, string> = {
@@ -12,10 +13,10 @@ function BadgeTag({ badge }: { badge: string }) {
     'végétarien': 'badge badge-vegetarien',
   };
   const labels: Record<string, string> = {
-    signature: '✨ Signature',
-    populaire: '★ Populaire',
+    signature: 'Signature',
+    populaire: 'Populaire',
     nouveau: 'Nouveau',
-    'végétarien': '🌿 Végétarien',
+    'végétarien': 'Végétarien',
   };
   return <span className={cls[badge] || 'badge badge-nouveau'}>{labels[badge] || badge}</span>;
 }
@@ -23,13 +24,8 @@ function BadgeTag({ badge }: { badge: string }) {
 export default function SignatureDishes() {
   const { ref, controls } = useScrollReveal();
   const menu = getMenu();
-  const categories = getCategories();
-  const [active, setActive] = useState('Tout');
 
-  const tabs = ['Tout', ...categories.sort((a, b) => a.order - b.order).map(c => c.name)];
-  const filtered = active === 'Tout' ? menu.filter(m => m.available) : menu.filter(m => m.available && m.category === active);
-
-  const catIcon = (name: string) => categories.find(c => c.name === name)?.icon || '';
+  const filtered = menu.filter(m => m.available).slice(0, 3);
 
   return (
     <section id="menu" className="py-24 bg-earth-dark">
@@ -49,24 +45,6 @@ export default function SignatureDishes() {
           <p className="text-text-light/60 max-w-2xl mx-auto">
             Des recettes authentiques sublimées par notre chef, mêlant traditions africaines et inspirations internationales.
           </p>
-        </motion.div>
-
-        {/* Tabs */}
-        <motion.div variants={fadeInUp} className="flex flex-wrap justify-center gap-3 mb-12">
-          {tabs.map(tab => (
-            <button
-              key={tab}
-              onClick={() => setActive(tab)}
-              className={`font-poppins text-sm font-medium px-5 py-2.5 rounded-full transition-all duration-300 cursor-pointer ${
-                active === tab
-                  ? 'bg-terracotta text-white shadow-lg shadow-terracotta/30'
-                  : 'border border-text-light/30 text-text-light/70 hover:border-gold hover:text-gold'
-              }`}
-            >
-              {tab !== 'Tout' && <span className="mr-1.5">{catIcon(tab)}</span>}
-              {tab}
-            </button>
-          ))}
         </motion.div>
 
         {/* Grid */}
@@ -107,8 +85,8 @@ export default function SignatureDishes() {
                     {item.description}
                   </p>
                   <div className="flex items-center justify-between">
-                    <span className="font-poppins text-xs text-text-light/40 uppercase">
-                      {catIcon(item.category)} {item.category}
+                    <span className="font-poppins text-xs text-text-light/40 uppercase flex items-center gap-1.5">
+                      <CategoryIcon name={item.category} size={14} className="text-gold" /> {item.category}
                     </span>
                     <span className="font-poppins text-lg font-bold text-terracotta">
                       {item.price.toLocaleString('fr-FR')} XOF
@@ -127,6 +105,16 @@ export default function SignatureDishes() {
             ))}
           </AnimatePresence>
         </motion.div>
+
+        {/* View Full Menu Button */}
+        <div className="text-center mt-12">
+          <Link
+            to="/menu"
+            className="inline-flex items-center justify-center gap-2 btn-shimmer"
+          >
+            Voir toute la carte →
+          </Link>
+        </div>
       </motion.div>
     </section>
   );

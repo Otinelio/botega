@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getCategories, setCategories, uid, type Category } from '../data/store';
 import { Plus, Pencil, Trash2, X, GripVertical } from 'lucide-react';
+import CategoryIcon from '../components/CategoryIcon';
 
 export default function CategoriesManager() {
   const [cats, setCats] = useState<Category[]>(getCategories());
@@ -74,7 +75,7 @@ export default function CategoriesManager() {
               <GripVertical size={14} className="text-text-dark/20" />
               <button onClick={() => moveDown(idx)} className="text-text-dark/30 hover:text-text-dark cursor-pointer text-xs">▼</button>
             </div>
-            <span className="text-2xl">{cat.icon}</span>
+            <CategoryIcon name={cat.name} size={24} className="text-terracotta" />
             <span className="flex-1 font-poppins font-semibold text-sm text-earth-dark">{cat.name}</span>
             <span className="text-xs text-text-dark/40">#{cat.order}</span>
             <button onClick={() => openEdit(cat)} className="p-1.5 rounded-lg hover:bg-gray-100 cursor-pointer">
