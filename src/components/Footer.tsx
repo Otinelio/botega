@@ -1,5 +1,5 @@
 import { getInfo } from '../data/store';
-import { MapPin, Phone, Clock, MessageCircle, Camera } from 'lucide-react';
+import { MapPin, Phone, Clock, MessageCircle, Camera, Mail } from 'lucide-react';
 import logoBodega from '../assets/logo_bodega.png';
 
 export default function Footer() {
@@ -76,6 +76,12 @@ export default function Footer() {
                   className="hover:text-gold transition-colors"
                 >
                   WhatsApp
+                </a>
+              </li>
+              <li className="flex items-center gap-3 text-sm">
+                <Mail size={16} className="text-terracotta shrink-0" />
+                <a href="mailto:restaurantbodega0@hotmail.com" className="hover:text-gold transition-colors">
+                  restaurantbodega0@hotmail.com
                 </a>
               </li>
             </ul>
