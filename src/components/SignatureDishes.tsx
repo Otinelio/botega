@@ -25,7 +25,25 @@ export default function SignatureDishes() {
   const { ref, controls } = useScrollReveal();
   const menu = getMenu();
 
-  const filtered = menu.filter(m => m.available).slice(0, 3);
+  // Catégories de boissons à exclure
+  const drinkCategories = [
+    'Cocktails',
+    'Mocktails / Virgin',
+    'Smoothies',
+    'Jus de fruits',
+    'Softs / Sodas',
+    'Les Alcools',
+    'Digestifs',
+    'Bières',
+    'Eaux',
+    'Boissons chaudes',
+    'Vins / Champagnes',
+  ];
+
+  // Filtrer pour afficher uniquement les plats (pas les boissons)
+  const filtered = menu
+    .filter(m => m.available && !drinkCategories.includes(m.category))
+    .slice(0, 3);
 
   return (
     <section id="menu" className="py-24 bg-earth-dark">
@@ -61,12 +79,18 @@ export default function SignatureDishes() {
                 className="group bg-card-dark rounded-2xl overflow-hidden border-t-[3px] border-terracotta shadow-lg hover:shadow-2xl hover:scale-[1.04] transition-all duration-300"
               >
                 {/* Image */}
-                <div className="relative h-52 overflow-hidden">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-full h-full object-cover group-hover:scale-110 group-hover:saturate-[1.2] transition-all duration-500"
-                  />
+                <div className="relative h-52 overflow-hidden bg-earth-mid">
+                  {item.image ? (
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-full h-full object-cover group-hover:scale-110 group-hover:saturate-[1.2] transition-all duration-500"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-gold/30">
+                      <CategoryIcon name={item.category} size={48} />
+                    </div>
+                  )}
                   <div className="absolute inset-0 bg-terracotta/0 group-hover:bg-terracotta/30 transition-colors duration-300 flex items-center justify-center">
                     <ShoppingCart className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" size={32} />
                   </div>

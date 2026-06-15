@@ -47,24 +47,26 @@ export default function Gallery() {
           className="grid grid-cols-2 md:grid-cols-3 gap-4 auto-rows-[220px]"
         >
           {gallery.map((img, i) => (
-            <motion.div
-              key={img.id}
-              variants={fadeInUp}
-              onClick={() => openLightbox(i)}
-              className={`group relative rounded-xl overflow-hidden cursor-pointer ${sizeClasses[i % sizeClasses.length]}`}
-            >
-              <img
-                src={img.url}
-                alt={img.caption}
-                className="w-full h-full object-cover group-hover:scale-[1.08] transition-transform duration-500"
-              />
-              <div className="absolute inset-0 bg-earth-dark/0 group-hover:bg-earth-dark/50 transition-colors duration-300 flex items-center justify-center">
-                <Search className="text-gold opacity-0 group-hover:opacity-100 transition-opacity duration-300" size={36} />
-              </div>
-              <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-earth-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                <p className="text-text-light text-xs font-poppins">{img.caption}</p>
-              </div>
-            </motion.div>
+            img.url?.trim() && (
+              <motion.div
+                key={img.id}
+                variants={fadeInUp}
+                onClick={() => openLightbox(i)}
+                className={`group relative rounded-xl overflow-hidden cursor-pointer ${sizeClasses[i % sizeClasses.length]}`}
+              >
+                <img
+                  src={img.url}
+                  alt={img.caption}
+                  className="w-full h-full object-cover group-hover:scale-[1.08] transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-earth-dark/0 group-hover:bg-earth-dark/50 transition-colors duration-300 flex items-center justify-center">
+                  <Search className="text-gold opacity-0 group-hover:opacity-100 transition-opacity duration-300" size={36} />
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-earth-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                  <p className="text-text-light text-xs font-poppins">{img.caption}</p>
+                </div>
+              </motion.div>
+            )
           ))}
         </motion.div>
 

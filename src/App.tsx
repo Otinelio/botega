@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
 import { seedAllData } from './data/store';
+import { migrateDataToSupabase } from './lib/migrate';
 import Home from './pages/Home';
 import ScanMenu from './pages/ScanMenu';
 import MenuPublic from './pages/MenuPublic';
@@ -15,6 +17,14 @@ import SettingsManager from './admin/SettingsManager';
 seedAllData();
 
 function App() {
+  useEffect(() => {
+    // Migrate data to Supabase on first load
+    // This runs silently in the background and only happens once
+    migrateDataToSupabase().catch(err => {
+      console.error('Migration failed, but app will use local data as fallback:', err);
+    });
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>
