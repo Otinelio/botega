@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getMenu, setMenu, getCategories, uid, type MenuItem } from '../data/store';
+import { supabase } from '../lib/supabase';
 import { Plus, Pencil, Trash2, X, Eye, EyeOff } from 'lucide-react';
 
 const EMPTY_ITEM: Omit<MenuItem, 'id'> = {
@@ -32,25 +33,52 @@ export default function MenuManager() {
     setShowModal(true);
   };
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name || form.price <= 0) return;
+    
+    let newItem: MenuItem;
     if (editing) {
-      setItems(prev => prev.map(i => i.id === editing.id ? { ...i, ...form } : i));
+      newItem = { ...editing, ...form };
+      setItems(prev => prev.map(i => i.id === editing.id ? newItem : i));
     } else {
-      setItems(prev => [...prev, { id: uid(), ...form }]);
+      newItem = { id: uid(), ...form };
+      setItems(prev => [...prev, newItem]);
     }
+    
+    // Synchroniser avec Supabase
+    try {
+      const categoryObj = categories.find(c => c.name === newItem.category);
+      await supabase.from('menu_items').upsert({
+        id: newItem.id,
+        name: newItem.name,
+        description: newItem.description,
+        price: newItem.price,
+        category_id: categoryObj ? categoryObj.id : newItem.category,
+        badges: newItem.badges,
+        available: newItem.available,
+        image_url: newItem.image,
+      });
+    } catch (err) {
+      console.error("Erreur de sauvegarde Supabase:", err);
+    }
+
     setShowModal(false);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm('Supprimer ce plat ?')) {
       setItems(prev => prev.filter(i => i.id !== id));
+      await supabase.from('menu_items').delete().eq('id', id);
     }
   };
 
-  const toggleAvailable = (id: string) => {
-    setItems(prev => prev.map(i => i.id === id ? { ...i, available: !i.available } : i));
+  const toggleAvailable = async (id: string) => {
+    const item = items.find(i => i.id === id);
+    if (!item) return;
+    const newStatus = !item.available;
+    setItems(prev => prev.map(i => i.id === id ? { ...i, available: newStatus } : i));
+    await supabase.from('menu_items').update({ available: newStatus }).eq('id', id);
   };
 
   const toggleBadge = (badge: string) => {

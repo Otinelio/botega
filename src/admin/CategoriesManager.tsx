@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getCategories, setCategories, uid, type Category } from '../data/store';
+import { supabase } from '../lib/supabase';
 import { Plus, Pencil, Trash2, X, GripVertical } from 'lucide-react';
 import CategoryIcon from '../components/CategoryIcon';
 
@@ -23,37 +24,70 @@ export default function CategoriesManager() {
     setShowModal(true);
   };
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name) return;
+    
+    let newCat: Category;
     if (editing) {
-      setCats(prev => prev.map(c => c.id === editing.id ? { ...c, name: form.name, icon: form.icon } : c));
+      newCat = { ...editing, name: form.name, icon: form.icon };
+      setCats(prev => prev.map(c => c.id === editing.id ? newCat : c));
     } else {
-      setCats(prev => [...prev, { id: uid(), name: form.name, icon: form.icon, order: prev.length + 1 }]);
+      newCat = { id: uid(), name: form.name, icon: form.icon, order: cats.length + 1 };
+      setCats(prev => [...prev, newCat]);
     }
+    
+    try {
+      await supabase.from('categories').upsert({
+        id: newCat.id,
+        name: newCat.name,
+        icon: newCat.icon,
+        order: newCat.order
+      });
+    } catch (err) {
+      console.error(err);
+    }
+    
     setShowModal(false);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm('Supprimer cette catégorie ?')) {
       setCats(prev => prev.filter(c => c.id !== id));
+      await supabase.from('categories').delete().eq('id', id);
     }
   };
 
-  const moveUp = (idx: number) => {
+  const updateOrderInSupabase = async (newCats: Category[]) => {
+    try {
+      const updates = newCats.map(c => ({
+        id: c.id,
+        name: c.name,
+        icon: c.icon,
+        order: c.order
+      }));
+      await supabase.from('categories').upsert(updates);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const moveUp = async (idx: number) => {
     if (idx === 0) return;
-    const next = [...cats];
+    const next = [...cats].sort((a, b) => a.order - b.order);
     [next[idx - 1], next[idx]] = [next[idx], next[idx - 1]];
     next.forEach((c, i) => c.order = i + 1);
     setCats(next);
+    await updateOrderInSupabase(next);
   };
 
-  const moveDown = (idx: number) => {
-    if (idx === cats.length - 1) return;
-    const next = [...cats];
+  const moveDown = async (idx: number) => {
+    const next = [...cats].sort((a, b) => a.order - b.order);
+    if (idx === next.length - 1) return;
     [next[idx], next[idx + 1]] = [next[idx + 1], next[idx]];
     next.forEach((c, i) => c.order = i + 1);
     setCats(next);
+    await updateOrderInSupabase(next);
   };
 
   const EMOJI_SUGGESTIONS = ['🍕', '🔥', '🌍', '🍹', '🍮', '🥤', '🍗', '🥗', '🍣', '☕', '🧁', '🫕'];

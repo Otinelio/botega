@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getTestimonials, setTestimonials, uid, type Testimonial } from '../data/store';
+import { supabase } from '../lib/supabase';
 import { Plus, Pencil, Trash2, X, Eye, EyeOff, Star } from 'lucide-react';
 
 export default function TestimonialsManager() {
@@ -22,25 +23,39 @@ export default function TestimonialsManager() {
     setShowModal(true);
   };
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name || !form.text) return;
+    
+    let newItem: Testimonial;
     if (editing) {
-      setItems(prev => prev.map(t => t.id === editing.id ? { ...t, ...form } : t));
+      newItem = { ...editing, ...form };
+      setItems(prev => prev.map(t => t.id === editing.id ? newItem : t));
     } else {
-      setItems(prev => [...prev, { id: uid(), ...form }]);
+      newItem = { id: uid(), ...form };
+      setItems(prev => [...prev, newItem]);
     }
+    
+    try {
+      await supabase.from('testimonials').upsert(newItem);
+    } catch(err) { console.error(err); }
+    
     setShowModal(false);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm('Supprimer ce témoignage ?')) {
       setItems(prev => prev.filter(t => t.id !== id));
+      await supabase.from('testimonials').delete().eq('id', id);
     }
   };
 
-  const toggleVisible = (id: string) => {
-    setItems(prev => prev.map(t => t.id === id ? { ...t, visible: !t.visible } : t));
+  const toggleVisible = async (id: string) => {
+    const item = items.find(i => i.id === id);
+    if (!item) return;
+    const newStatus = !item.visible;
+    setItems(prev => prev.map(t => t.id === id ? { ...t, visible: newStatus } : t));
+    await supabase.from('testimonials').update({ visible: newStatus }).eq('id', id);
   };
 
   return (

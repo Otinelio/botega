@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getInfo, setInfo, type RestaurantInfo } from '../data/store';
+import { supabase } from '../lib/supabase';
 import { Save, Check } from 'lucide-react';
 
 export default function SettingsManager() {
@@ -13,10 +14,22 @@ export default function SettingsManager() {
     }
   }, [saved]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setInfo(form);
-    setSaved(true);
+    
+    try {
+      const { adminPassword, ...restInfo } = form;
+      await supabase.from('restaurant_info').upsert({
+        id: 'main',
+        ...restInfo,
+        admin_password_hash: adminPassword
+      });
+      setSaved(true);
+    } catch (err) {
+      console.error(err);
+      alert('Erreur lors de la sauvegarde sur le cloud');
+    }
   };
 
   const fields: { key: keyof RestaurantInfo; label: string; type?: string; rows?: number }[] = [
