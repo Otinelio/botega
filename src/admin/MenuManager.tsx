@@ -151,7 +151,8 @@ export default function MenuManager() {
 
       {/* List */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col">
-        <div className="overflow-x-auto">
+        {/* Desktop Table Layout */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left border-collapse min-w-[800px]">
             <thead>
               <tr className="bg-gray-50 border-b border-gray-100">
@@ -218,6 +219,59 @@ export default function MenuManager() {
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Card Layout */}
+        <div className="md:hidden flex flex-col divide-y divide-gray-100">
+          {filtered.map(item => (
+            <div key={item.id} className={`p-4 flex flex-col gap-3 transition-colors ${!item.available ? 'opacity-50 grayscale-[0.5]' : ''}`}>
+              <div className="flex items-start gap-3">
+                {/* Photo */}
+                <div className="shrink-0">
+                  {item.image ? (
+                    <img src={item.image} alt={item.name} className="w-16 h-16 rounded-xl object-cover shadow-sm border border-gray-100" />
+                  ) : (
+                    <div className="w-16 h-16 rounded-xl bg-gray-100 border border-gray-200 flex items-center justify-center text-xl shadow-inner">
+                      <ImageIcon size={20} className="text-gray-400" />
+                    </div>
+                  )}
+                </div>
+                {/* Info */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex justify-between items-start gap-2 mb-1">
+                    <h4 className="font-semibold text-sm text-earth-dark truncate">{item.name}</h4>
+                    <span className="font-poppins font-bold text-sm text-terracotta shrink-0">{item.price.toLocaleString('fr-FR')} F</span>
+                  </div>
+                  <p className="text-xs text-text-dark/50 line-clamp-2 mb-2">{item.description}</p>
+                  <div className="flex flex-wrap gap-1.5 items-center">
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-gray-100 text-[10px] font-medium text-text-dark/70">
+                      {item.category}
+                    </span>
+                    {item.badges.map(b => (
+                      <span key={b} className="text-[9px] uppercase tracking-wider font-semibold bg-gold/10 text-gold px-1.5 py-0.5 rounded-md border border-gold/20">{b}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              {/* Actions */}
+              <div className="flex items-center justify-end gap-2 pt-2 mt-1 border-t border-gray-50">
+                <button onClick={() => toggleAvailable(item.id)} className={`flex items-center justify-center w-8 h-8 rounded-lg transition-colors cursor-pointer ${item.available ? 'bg-olive/10 text-olive' : 'bg-gray-100 text-gray-400'}`} title={item.available ? 'Désactiver' : 'Activer'}>
+                  {item.available ? <Eye size={16} /> : <EyeOff size={16} />}
+                </button>
+                <button onClick={() => openEdit(item)} className="flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 text-text-dark/60 hover:text-night transition-colors cursor-pointer" title="Modifier">
+                  <Pencil size={16} />
+                </button>
+                <button onClick={() => handleDelete(item.id)} className="flex items-center justify-center w-8 h-8 rounded-lg bg-red-50 text-red-400 hover:text-red-500 transition-colors cursor-pointer" title="Supprimer">
+                  <Trash2 size={16} />
+                </button>
+              </div>
+            </div>
+          ))}
+          {filtered.length === 0 && (
+            <div className="px-5 py-12 text-center text-text-dark/50 font-poppins text-sm">
+              Aucun plat trouvé dans cette catégorie.
+            </div>
+          )}
         </div>
       </div>
 
