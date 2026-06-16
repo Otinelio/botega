@@ -60,28 +60,28 @@ export const uid = () => Math.random().toString(36).slice(2, 10);
 
 /* ── Default Categories ── */
 export const defaultCategories: Category[] = [
-  { id: 'cat-cocktails',      name: 'Cocktails',          icon: '🍹', order: 1 },
-  { id: 'cat-mocktails',      name: 'Mocktails / Virgin',  icon: '🧃', order: 2 },
-  { id: 'cat-smoothies',      name: 'Smoothies',          icon: '🥤', order: 3 },
-  { id: 'cat-jus',            name: 'Jus de fruits',      icon: '🍊', order: 4 },
-  { id: 'cat-softs',          name: 'Softs / Sodas',      icon: '🥫', order: 5 },
-  { id: 'cat-alcools',        name: 'Les Alcools',        icon: '🥃', order: 6 },
-  { id: 'cat-digestifs',      name: 'Digestifs',          icon: '🍷', order: 7 },
-  { id: 'cat-bieres',         name: 'Bières',             icon: '🍺', order: 8 },
-  { id: 'cat-eaux',           name: 'Eaux',               icon: '💧', order: 9 },
-  { id: 'cat-boissons-chaud', name: 'Boissons chaudes',   icon: '☕', order: 10 },
-  { id: 'cat-tapas',          name: 'Tapas',              icon: '🍢', order: 11 },
-  { id: 'cat-salades',        name: 'Salades',            icon: '🥗', order: 12 },
-  { id: 'cat-plats-mer',      name: 'Plats — Mer',        icon: '🐟', order: 13 },
-  { id: 'cat-plats-terre',    name: 'Plats — Terre',      icon: '🍗', order: 14 },
-  { id: 'cat-plats-complets', name: 'Plats complets',     icon: '🍽️', order: 15 },
-  { id: 'cat-pates',          name: 'Nos pâtes',          icon: '🍝', order: 16 },
-  { id: 'cat-afrique',        name: "Saveurs d'Afrique",  icon: '🌍', order: 17 },
-  { id: 'cat-burgers',        name: 'Sur le pouce',       icon: '🍔', order: 18 },
-  { id: 'cat-enfants',        name: 'Menus enfants',      icon: '👧', order: 19 },
-  { id: 'cat-pizzas',         name: 'Nos pizzas',         icon: '🍕', order: 20 },
-  { id: 'cat-supplements',    name: 'Suppléments',        icon: '➕', order: 21 },
-  { id: 'cat-desserts',       name: 'Desserts',           icon: '🍮', order: 22 },
+  { id: 'cat-tapas',          name: 'Tapas',              icon: '🍢', order: 1 },
+  { id: 'cat-salades',        name: 'Salades',            icon: '🥗', order: 2 },
+  { id: 'cat-plats-mer',      name: 'Plats — Mer',        icon: '🐟', order: 3 },
+  { id: 'cat-plats-terre',    name: 'Plats — Terre',      icon: '🍗', order: 4 },
+  { id: 'cat-plats-complets', name: 'Plats complets',     icon: '🍽️', order: 5 },
+  { id: 'cat-pates',          name: 'Nos pâtes',          icon: '🍝', order: 6 },
+  { id: 'cat-afrique',        name: "Saveurs d'Afrique",  icon: '🌍', order: 7 },
+  { id: 'cat-burgers',        name: 'Sur le pouce',       icon: '🍔', order: 8 },
+  { id: 'cat-enfants',        name: 'Menus enfants',      icon: '👧', order: 9 },
+  { id: 'cat-pizzas',         name: 'Nos pizzas',         icon: '🍕', order: 10 },
+  { id: 'cat-supplements',    name: 'Suppléments',        icon: '➕', order: 11 },
+  { id: 'cat-desserts',       name: 'Desserts',           icon: '🍮', order: 12 },
+  { id: 'cat-cocktails',      name: 'Cocktails',          icon: '🍹', order: 13 },
+  { id: 'cat-mocktails',      name: 'Mocktails / Virgin',  icon: '🧃', order: 14 },
+  { id: 'cat-smoothies',      name: 'Smoothies',          icon: '🥤', order: 15 },
+  { id: 'cat-jus',            name: 'Jus de fruits',      icon: '🍊', order: 16 },
+  { id: 'cat-softs',          name: 'Softs / Sodas',      icon: '🥫', order: 17 },
+  { id: 'cat-alcools',        name: 'Les Alcools',        icon: '🥃', order: 18 },
+  { id: 'cat-digestifs',      name: 'Digestifs',          icon: '🍷', order: 19 },
+  { id: 'cat-bieres',         name: 'Bières',             icon: '🍺', order: 20 },
+  { id: 'cat-eaux',           name: 'Eaux',               icon: '💧', order: 21 },
+  { id: 'cat-boissons-chaud', name: 'Boissons chaudes',   icon: '☕', order: 22 },
   { id: 'cat-vins',           name: 'Vins / Champagnes',  icon: '🍾', order: 23 },
 ];
 
@@ -369,7 +369,7 @@ export const defaultGallery: GalleryItem[] = [
  * Bump this string any time defaultMenu or defaultCategories change.
  * Returning visitors will automatically get the fresh data.
  */
-const DATA_VERSION = 'v2-real-menu';
+const DATA_VERSION = 'v3-reorder-categories';
 
 const KEYS = {
   menu: 'bodega_menu',
