@@ -29,22 +29,22 @@ export default function Dashboard() {
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
         <h3 className="font-serif text-lg font-bold text-earth-dark mb-4">Accès rapides</h3>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {[
-            { label: 'Ajouter un plat', href: '/admin/menu' },
-            { label: 'Gérer les catégories', href: '/admin/categories' },
-            { label: 'Ajouter à la galerie', href: '/admin/gallery' },
-            { label: 'Modifier les infos', href: '/admin/settings' },
-            { label: 'Gérer les témoignages', href: '/admin/testimonials' },
-            { label: 'Voir le site', href: '/', external: true },
+            { label: 'Ajouter un plat', href: '/admin/menu', color: 'hover:bg-terracotta hover:text-white text-terracotta bg-terracotta/5 border-terracotta/20' },
+            { label: 'Gérer les catégories', href: '/admin/categories', color: 'hover:bg-gold hover:text-white text-gold bg-gold/5 border-gold/20' },
+            { label: 'Ajouter à la galerie', href: '/admin/gallery', color: 'hover:bg-night hover:text-white text-night bg-night/5 border-night/20' },
+            { label: 'Modifier les infos', href: '/admin/settings', color: 'hover:bg-olive hover:text-white text-olive bg-olive/5 border-olive/20' },
+            { label: 'Gérer les témoignages', href: '/admin/testimonials', color: 'hover:bg-terracotta-deep hover:text-white text-terracotta-deep bg-terracotta-deep/5 border-terracotta-deep/20' },
+            { label: 'Voir le site', href: '/', external: true, color: 'hover:bg-earth-dark hover:text-white text-earth-dark bg-earth-dark/5 border-earth-dark/20' },
           ].map((a, i) => (
             <a
               key={i}
               href={a.href}
               target={a.external ? '_blank' : undefined}
-              className="p-4 rounded-lg bg-admin-bg hover:bg-terracotta/10 transition-colors text-sm font-poppins font-medium text-earth-dark text-center"
+              className={`p-4 rounded-xl border transition-all text-sm font-poppins font-semibold text-center flex items-center justify-center min-h-[80px] shadow-sm hover:shadow-md ${a.color}`}
             >
               {a.label}
             </a>

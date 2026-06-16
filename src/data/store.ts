@@ -94,7 +94,7 @@ const m = (name: string, price: number, category: string, description = '', badg
 export const defaultMenu: MenuItem[] = [
 
   /* ═══ SIGNATURE BODEGA ═══ */
-  m('Pizza Bodega Spéciale', 12500, 'Nos pizzas', 'Sauce tomate maison, mozzarella, chèvre frais, tomates confites, roquette, miel de truffe', ['signature'], 'https://images.unsplash.com/photo-1504674900967-8e38f0a82fdc?w=600&q=80'),
+  m('Pizza Bodega Spéciale', 12500, 'Nos pizzas', 'Sauce tomate maison, mozzarella, chèvre frais, tomates confites, roquette, miel de truffe', ['signature'], 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&q=80'),
   m('Grillade Premium - Faux-Filet', 18000, 'Plats — Terre', 'Pièce de boeuf premium cuite au charbon, sauce chimichurri maison, légumes grillés', ['signature'], 'https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=600&q=80'),
   m('Attiéké & Poisson Braisé', 11000, "Saveurs d'Afrique", 'Poisson frais braisé aux épices, attiéké savoureux, sauce arachide, légumes', ['signature'], 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=80'),
 
@@ -369,7 +369,7 @@ export const defaultGallery: GalleryItem[] = [
  * Bump this string any time defaultMenu or defaultCategories change.
  * Returning visitors will automatically get the fresh data.
  */
-const DATA_VERSION = 'v3-reorder-categories';
+const DATA_VERSION = 'v4-fix-pizza-img';
 
 const KEYS = {
   menu: 'bodega_menu',
